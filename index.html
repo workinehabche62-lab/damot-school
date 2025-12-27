@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="google-site-verification" content="njhebUWbBkoK6WBkmyEyU5ntA4YIGMwnI9V6g2Eaw0k" /> 
+<head>
+    <meta name="google-site-verification" content="njhebUWbBkoK6WBkmyEyU5ntA4YIGMwnI9V6g2Eaw0k" /> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amhara Region Damot Secondary School 2018 Result/title>
-        <meta name="description" content="Official Damot Secondary School 2018 Student Result Portal. Students can check their academic results using their admission number and password.">
+    <title>Amhara Region Damot Secondary School 2018 Result</title>
+    <meta name="description" content="Official Damot Secondary School 2018 Student Result Portal. Students can check their academic results using their admission number and password.">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+Ethiopic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Colorful Animated Background */
@@ -69,11 +70,11 @@
 
 <div class="container">
     <div class="lang-bar">
-        <button class="lang-btn active" onclick="setLang('en')">ENGLISH</button>
-        <button class="lang-btn" onclick="setLang('am')">አማርኛ</button>
-        <button class="lang-btn" onclick="setLang('or')">OROMIA</button>
-        <button class="lang-btn" onclick="setLang('tg')">ትግርኛ</button>
-        <button class="lang-btn" onclick="setLang('so')">SOMALI</button>
+        <button class="lang-btn active" onclick="setLang('en', event)">ENGLISH</button>
+        <button class="lang-btn" onclick="setLang('am', event)">አማርኛ</button>
+        <button class="lang-btn" onclick="setLang('or', event)">OROMIA</button>
+        <button class="lang-btn" onclick="setLang('tg', event)">ትግርኛ</button>
+        <button class="lang-btn" onclick="setLang('so', event)">SOMALI</button>
     </div>
 
     <h1 id="hTitle">DAMOT GENERAL SECONDARY SCHOOL</h1>
@@ -97,19 +98,17 @@
 </div>
 
 <script>
-    // ያንተን ሊንክ እዚህ ጋር አስገባ
     const scriptUrl = "https://script.google.com/macros/s/AKfycbwvzI5puse6neK61fJ3-XiZjncwtdcoI_HhE53TQUuZ-CAakjzf1_pWYiRFjvRQpjjp/exec";
 
     const dict = {
-        en: { t: "DAMOT GENERAL SECONDARY SCHOOL", y: "Academic Year: 2017/2018", n: "Full Name", i: "Admission No", b: "View Result" },
-        am: { t: "ዳሞት አጠቃላይ የሁለተኛ ደረጃ ትምህርት ቤት", y: "የትምህርት ዘመን፡ 2017/2018", n: "ሙሉ ስም", i: "መለያ ቁጥር", b: "ውጤት አሳይ" },
-        or: { t: "MANA BARUMSA SAD. 2FFAA DAMOT", y: "Bara Barnootaa: 2017/2018", n: "Maqaa Guutuu", i: "Lakk. Galmee", b: "Bu'aa Ilaali" },
-        tg: { t: "ዳሞት ሓፈሻዊ ካልኣይ ብርኪ ቤት ትምህርቲ", y: "ዓመት ትምህርቲ፡ 2017/2018", n: "ምሉእ ስም", i: "መፍለዪ ቁጽሪ", b: "ውጽኢት ርአ" },
-        so: { t: "DUGSIYA SARE EE DAMOT", y: "Sannadka: 2017/2018", n: "Magaca", i: "Lambarka", b: "Fiiri Natiijada" }
+        en: { t: "DAMOT GENERAL SECONDARY SCHOOL", y: "Academic Year: /2018", n: "Full Name", i: "Admission No", b: "View Result" },
+        am: { t: "ዳሞት አጠቃላይ የሁለተኛ ደረጃ ትምህርት ቤት", y: "የትምህርት ዘመን፡ /2018", n: "ሙሉ ስም", i: "መለያ ቁጥር", b: "ውጤት አሳይ" },
+        or: { t: "MANA BARUMSA SAD. 2FFAA DAMOT", y: "Bara Barnootaa: /2018", n: "Maqaa Guutuu", i: "Lakk. Galmee", b: "Bu'aa Ilaali" },
+        tg: { t: "ዳሞት ሓፈሻዊ ካልኣይ ብርኪ ቤት ትምህርቲ", y: "ዓመት ትምህርቲ፡ /2018", n: "ምሉእ ስም", i: "መፍለዪ ቁጽሪ", b: "ውጽኢት ርአ" },
+        so: { t: "DUGSIYA SARE EE DAMOT", y: "Sannadka: /2018", n: "Magaca", i: "Lambarka", b: "Fiiri Natiijada" }
     };
 
-    // ቋንቋ መቀየሪያው እንዲሰራ ይህ አስፈላጊ ነው
-    function setLang(lang) {
+    function setLang(lang, event) {
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         event.target.classList.add('active');
         
@@ -117,7 +116,7 @@
         document.getElementById('hYear').innerText = dict[lang].y;
         document.getElementById('uName').placeholder = dict[lang].n;
         document.getElementById('uId').placeholder = dict[lang].i;
-        document.getElementById('searchBtn').innerText = dict[l].b;
+        document.getElementById('searchBtn').innerText = dict[lang].b; // ስህተት የነበረው l ወደ lang ተስተካክሏል
     }
 
     async function fetchResult() {
@@ -130,7 +129,6 @@
         btn.innerText = "Connecting...";
 
         try {
-            // "no-cors" ፋንታ ቀጥታ fetch እንጠቀማለን ዳታ እንዲመጣ
             const response = await fetch(`${scriptUrl}?name=${encodeURIComponent(name)}&adm=${encodeURIComponent(id)}&pwd=${encodeURIComponent(pw)}`);
             const data = await response.json();
 

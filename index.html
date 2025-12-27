@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+Ethiopic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Colorful Animated Background */
-        @keyframes gradientAnim {
+        @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -15,147 +15,128 @@
 
         body {
             font-family: 'Poppins', 'Noto Sans Ethiopic', sans-serif;
-            background: linear-gradient(-45deg, #00c6ff, #0072ff, #f953c6, #b91d73);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
-            animation: gradientAnim 12s ease infinite;
+            animation: gradient 15s ease infinite;
             margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white;
         }
 
         .container {
-            width: 95%; max-width: 500px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            width: 90%; max-width: 500px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 35px; padding: 40px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); text-align: center;
+            border-radius: 35px; padding: 40px; box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2); text-align: center;
         }
 
-        /* Language Switcher */
-        .lang-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
+        .lang-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+        
         .lang-btn {
-            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); color: white;
-            padding: 6px 14px; border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.4s;
+            background: rgba(255, 255, 255, 0.2); border: none; color: white;
+            padding: 8px 15px; border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s;
         }
-        .lang-btn.active { background: white; color: #0072ff; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3); }
 
-        h1 { font-size: 22px; font-weight: 800; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .sub-text { font-size: 12px; opacity: 0.9; margin-bottom: 30px; letter-spacing: 1px; }
+        .lang-btn.active { background: white; color: #e73c7e; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
 
-        /* Input Styles */
-        .form-group { text-align: left; margin-bottom: 15px; }
-        label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 5px; margin-left: 10px; }
+        h1 { font-size: 22px; font-weight: 800; margin-bottom: 5px; }
+        .year-tag { font-size: 13px; background: rgba(0,0,0,0.2); display: inline-block; padding: 4px 15px; border-radius: 20px; margin-bottom: 30px; }
+
         input {
-            width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.95);
-            border: none; border-radius: 15px; color: #333; font-size: 14px; font-weight: 600; box-sizing: border-box; outline: none; transition: 0.3s;
+            width: 100%; padding: 16px; margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.9); border: none; border-radius: 18px;
+            color: #333; font-size: 15px; font-weight: 600; box-sizing: border-box; outline: none;
         }
-        input:focus { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
         button#searchBtn {
-            width: 100%; padding: 16px; background: #ffffff; color: #0072ff;
-            border: none; border-radius: 15px; font-size: 15px; font-weight: 800; cursor: pointer;
-            margin-top: 10px; transition: 0.4s; text-transform: uppercase;
+            width: 100%; padding: 18px; background: #ffffff; color: #e73c7e;
+            border: none; border-radius: 18px; font-size: 16px; font-weight: 800;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
         }
-        button#searchBtn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); background: #f8fafc; }
 
-        /* Result Panel */
         .result-panel {
-            display: none; background: white; color: #1e293b; margin-top: 30px;
-            padding: 25px; border-radius: 25px; text-align: left; animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            display: none; background: white; color: #333; margin-top: 35px;
+            padding: 25px; border-radius: 25px; text-align: left; animation: slideUp 0.5s ease;
         }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .score-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-        .score-row b { color: #0072ff; }
-        .summary-box { background: #f0f9ff; padding: 15px; border-radius: 18px; margin-top: 20px; border-left: 5px solid #0072ff; }
-        .sum-row { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 5px; font-size: 15px; }
-        .pass { color: #059669; } .fail { color: #dc2626; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .score-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        .summary-box { background: #fff0f5; padding: 15px; border-radius: 15px; margin-top: 15px; font-weight: 800; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="lang-bar">
-        <button class="lang-btn active" onclick="setLang('en', event)">English</button>
-        <button class="lang-btn" onclick="setLang('am', event)">አማርኛ</button>
-        <button class="lang-btn" onclick="setLang('or', event)">Oromoo</button>
+        <button class="lang-btn active" onclick="setLang('en')">ENGLISH</button>
+        <button class="lang-btn" onclick="setLang('am')">አማርኛ</button>
+        <button class="lang-btn" onclick="setLang('or')">OROMIA</button>
+        <button class="lang-btn" onclick="setLang('tg')">ትግርኛ</button>
+        <button class="lang-btn" onclick="setLang('so')">SOMALI</button>
     </div>
 
     <h1 id="hTitle">DAMOT GENERAL SECONDARY SCHOOL</h1>
-    <div class="sub-text" id="hSub">STUDENT RESULT PORTAL</div>
+    <div class="year-tag" id="hYear">Academic Year: 2018</div>
 
-    <div class="form-group">
-        <label id="lblN">STUDENT FULL NAME</label>
-        <input type="text" id="uName" placeholder="e.g. Workineh Abche">
-    </div>
-
-    <div class="form-group">
-        <label id="lblI">ADMISSION NUMBER</label>
-        <input type="text" id="uId" placeholder="e.g. 156100">
-    </div>
-
-    <div class="form-group">
-        <label id="lblP">PASSWORD</label>
-        <input type="password" id="uPw" placeholder="••••••••">
-    </div>
+    <input type="text" id="uName" placeholder="Full Name (e.g. Workineh)">
+    <input type="text" id="uId" placeholder="Admission Number (e.g. 0156100)">
+    <input type="password" id="uPw" placeholder="Password">
 
     <button id="searchBtn" onclick="fetchResult()">View Result</button>
 
     <div id="resPanel" class="result-panel">
-        <h3 id="dispName" style="margin: 0; color: #0072ff; font-size: 18px;"></h3>
-        <p id="dispMeta" style="font-size: 12px; color: #64748b; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;"></p>
-        
-        <div id="scoreArea">
-            </div>
-
+        <h3 id="rName" style="color: #e73c7e; margin: 0;"></h3>
+        <p id="rMeta" style="font-size: 12px; color: #666;"></p>
+        <div id="scoreArea"></div>
         <div class="summary-box">
-            <div class="sum-row"><span>Average:</span><span id="resAvg"></span></div>
-            <div class="sum-row"><span>Status:</span><span id="resStat"></span></div>
+            <div style="display:flex; justify-content:space-between;"><span>Average:</span><span id="rAvg"></span></div>
+            <div style="display:flex; justify-content:space-between;"><span>Status:</span><span id="rStat"></span></div>
         </div>
     </div>
 </div>
 
 <script>
-    // 1. ያንተን አዲስ የ Google Script URL እዚህ ተካው
-    const scriptUrl = "https://script.google.com/macros/s/AKfycby9Yx1Fmm2adSpqMUDe4EpbqMl0luruToFPezircqEbHXxgLS_E0k97g7I5v9cFTmB2/exec";
+    // ያንተን ሊንክ እዚህ ጋር አስገባ
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbwvzI5puse6neK61fJ3-XiZjncwtdcoI_HhE53TQUuZ-CAakjzf1_pWYiRFjvRQpjjp/exec";
 
-    const translations = {
-        en: { t: "DAMOT GENERAL SECONDARY SCHOOL", s: "STUDENT RESULT PORTAL", n: "STUDENT FULL NAME", i: "ADMISSION NUMBER", p: "PASSWORD", b: "View Result" },
-        am: { t: "ዳሞት አጠቃላይ የሁለተኛ ደረጃ ትምህርት ቤት", s: "የተማሪዎች ውጤት መመልከቻ", n: "የተማሪው ሙሉ ስም", i: "የመለያ ቁጥር (Admission)", p: "የይለፍ ቃል", b: "ውጤት አሳይ" },
-        or: { t: "MANA BARUMSA SAD. 2FFAA DAMOT", s: "PORTAALII BU'AA BARANNOOTAA", n: "MAQAA GUUTUU", i: "LAKKOOFSA GALMEE", p: "JECHA ICCHITII", b: "BU'AA ILAALU" }
+    const dict = {
+        en: { t: "DAMOT GENERAL SECONDARY SCHOOL", y: "Academic Year: 2017/2018", n: "Full Name", i: "Admission No", b: "View Result" },
+        am: { t: "ዳሞት አጠቃላይ የሁለተኛ ደረጃ ትምህርት ቤት", y: "የትምህርት ዘመን፡ 2017/2018", n: "ሙሉ ስም", i: "መለያ ቁጥር", b: "ውጤት አሳይ" },
+        or: { t: "MANA BARUMSA SAD. 2FFAA DAMOT", y: "Bara Barnootaa: 2017/2018", n: "Maqaa Guutuu", i: "Lakk. Galmee", b: "Bu'aa Ilaali" },
+        tg: { t: "ዳሞት ሓፈሻዊ ካልኣይ ብርኪ ቤት ትምህርቲ", y: "ዓመት ትምህርቲ፡ 2017/2018", n: "ምሉእ ስም", i: "መፍለዪ ቁጽሪ", b: "ውጽኢት ርአ" },
+        so: { t: "DUGSIYA SARE EE DAMOT", y: "Sannadka: 2017/2018", n: "Magaca", i: "Lambarka", b: "Fiiri Natiijada" }
     };
 
-    function setLang(lang, event) {
+    // ቋንቋ መቀየሪያው እንዲሰራ ይህ አስፈላጊ ነው
+    function setLang(lang) {
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         event.target.classList.add('active');
-        document.getElementById('hTitle').innerText = translations[lang].t;
-        document.getElementById('hSub').innerText = translations[lang].s;
-        document.getElementById('lblN').innerText = translations[lang].n;
-        document.getElementById('lblI').innerText = translations[lang].i;
-        document.getElementById('lblP').innerText = translations[lang].p;
-        document.getElementById('searchBtn').innerText = translations[lang].b;
+        
+        document.getElementById('hTitle').innerText = dict[lang].t;
+        document.getElementById('hYear').innerText = dict[lang].y;
+        document.getElementById('uName').placeholder = dict[lang].n;
+        document.getElementById('uId').placeholder = dict[lang].i;
+        document.getElementById('searchBtn').innerText = dict[l].b;
     }
 
     async function fetchResult() {
-        const name = document.getElementById('uName').value.trim();
-        const id = document.getElementById('uId').value.trim();
-        const pw = document.getElementById('uPw').value.trim();
+        const name = document.getElementById('uName').value;
+        const id = document.getElementById('uId').value;
+        const pw = document.getElementById('uPw').value;
         const btn = document.getElementById('searchBtn');
-        const panel = document.getElementById('resPanel');
 
         if(!name || !id || !pw) return alert("Please fill all fields!");
-        
-        btn.innerText = "Searching...";
-        btn.disabled = true;
-        panel.style.display = "none";
+        btn.innerText = "Connecting...";
 
         try {
-            const url = `${scriptUrl}?name=${encodeURIComponent(name)}&adm=${encodeURIComponent(id)}&pwd=${encodeURIComponent(pw)}`;
-            const response = await fetch(url);
+            // "no-cors" ፋንታ ቀጥታ fetch እንጠቀማለን ዳታ እንዲመጣ
+            const response = await fetch(`${scriptUrl}?name=${encodeURIComponent(name)}&adm=${encodeURIComponent(id)}&pwd=${encodeURIComponent(pw)}`);
             const data = await response.json();
 
             if(data.status === "success") {
-                panel.style.display = "block";
-                document.getElementById('dispName').innerText = name.toUpperCase();
-                document.getElementById('dispMeta').innerText = `Grade: ${data.grade} | Section: ${data.section}`;
+                document.getElementById('resPanel').style.display = "block";
+                document.getElementById('rName').innerText = name;
+                document.getElementById('rMeta').innerText = `Grade: ${data.grade} | Section: ${data.section}`;
                 
                 document.getElementById('scoreArea').innerHTML = `
                     <div class="score-row"><span>Mathematics</span><b>${data.maths}</b></div>
@@ -165,21 +146,19 @@
                     <div class="score-row"><span>English</span><b>${data.english}</b></div>
                 `;
                 
-                document.getElementById('resAvg').innerText = data.average + "%";
-                const s = document.getElementById('resStat');
-                s.innerText = data.resultStatus;
-                s.className = data.resultStatus.toLowerCase().includes("pass") ? "pass" : "fail";
+                let avgValue = parseFloat(data.average);
+                document.getElementById('rAvg').innerText = (avgValue <= 1 ? (avgValue * 100).toFixed(1) : avgValue) + "%";
+                document.getElementById('rStat').innerText = data.resultStatus;
+                document.getElementById('rStat').style.color = data.resultStatus === "PASSED" ? "green" : "red";
             } else {
-                alert("Student not found! Please check your Name, ID and Password.");
+                alert("User not found! Please check Name and ID.");
             }
         } catch (error) {
-            alert("Connection Error! Make sure your Google Script is deployed as 'Anyone'.");
+            alert("Error: Make sure your Script is Deployed as 'Anyone'.");
         } finally {
             btn.innerText = "View Result";
-            btn.disabled = false;
         }
     }
 </script>
-
 </body>
 </html>

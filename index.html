@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMOT G.S. SCHOOL | Student Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+Ethiopic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Colorful Animated Background */
+        @keyframes gradientAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Poppins', 'Noto Sans Ethiopic', sans-serif;
+            background: linear-gradient(-45deg, #00c6ff, #0072ff, #f953c6, #b91d73);
+            background-size: 400% 400%;
+            animation: gradientAnim 12s ease infinite;
+            margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white;
+        }
+
+        .container {
+            width: 90%; max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 35px; padding: 40px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); text-align: center;
+        }
+
+        /* Language Switcher */
+        .lang-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); color: white;
+            padding: 8px 18px; border-radius: 12px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.4s;
+        }
+        .lang-btn.active { background: white; color: #0072ff; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3); }
+
+        h1 { font-size: 24px; font-weight: 800; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .sub-text { font-size: 13px; opacity: 0.8; margin-bottom: 30px; letter-spacing: 1px; }
+
+        /* Input Styles */
+        .form-group { text-align: left; margin-bottom: 20px; }
+        label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; margin-left: 10px; }
+        input {
+            width: 100%; padding: 16px; background: rgba(255, 255, 255, 0.95);
+            border: none; border-radius: 18px; color: #333; font-size: 15px; font-weight: 600; box-sizing: border-box; outline: none; transition: 0.3s;
+        }
+        input:focus { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        button#searchBtn {
+            width: 100%; padding: 18px; background: white; color: #0072ff;
+            border: none; border-radius: 18px; font-size: 16px; font-weight: 800; cursor: pointer;
+            margin-top: 10px; transition: 0.4s; text-transform: uppercase;
+        }
+        button#searchBtn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+
+        /* Result Panel */
+        .result-panel {
+            display: none; background: white; color: #1e293b; margin-top: 35px;
+            padding: 30px; border-radius: 25px; text-align: left; animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .score-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .summary-box { background: #f0f9ff; padding: 20px; border-radius: 20px; margin-top: 20px; border-left: 5px solid #0072ff; }
+        .sum-row { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 5px; }
+        .pass { color: #059669; } .fail { color: #dc2626; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="lang-bar">
+        <button class="lang-btn active" onclick="setLang('en', event)">English</button>
+        <button class="lang-btn" onclick="setLang('am', event)">አማርኛ</button>
+        <button class="lang-btn" onclick="setLang('or', event)">Oromoo</button>
+        <button class="lang-btn" onclick="setLang('tg', event)">ትግርኛ</button>
+        <button class="lang-btn" onclick="setLang('so', event)">Somali</button>
+    </div>
+
+    <h1 id="hTitle">DAMOT GENERAL SECONDARY SCHOOL</h1>
+    <div class="sub-text" id="hSub">GRADE 9-12 | 2018 RESULT PORTAL</div>
+
+    <div class="form-group">
+        <label id="lblN">FULL NAME</label>
+        <input type="text" id="uName" placeholder="e.g. Workineh Abche">
+    </div>
+
+    <div class="form-group">
+        <label id="lblI">ADMISSION NUMBER</label>
+        <input type="text" id="uId" placeholder="e.g. 0156100">
+    </div>
+
+    <div class="form-group">
+        <label id="lblP">PASSWORD</label>
+        <input type="password" id="uPw" placeholder="••••••••">
+    </div>
+
+    <button id="searchBtn" onclick="fetchResult()">View Result</button>
+
+    <div id="resPanel" class="result-panel">
+        <h3 id="dispName" style="margin: 0; color: #0072ff;"></h3>
+        <p id="dispMeta" style="font-size: 12px; color: #64748b; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;"></p>
+        
+        <div id="scoreArea"></div>
+
+        <div class="summary-box">
+            <div class="sum-row"><span>Average:</span><span id="resAvg"></span></div>
+            <div class="sum-row"><span>Status:</span><span id="resStat"></span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ያንተ አዲሱ Script URL እዚህ ገብቷል
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbywhDaLxjAIACOoRphNvrXJDKOXJETLD7KridzSkVL97No7qwovFFhjqzpNoGBuAka-/exec";
+
+    const translations = {
+        en: { t: "DAMOT GENERAL SECONDARY SCHOOL", s: "GRADE 9-12 | 2018 RESULT PORTAL", n: "FULL NAME", i: "ADMISSION NUMBER", p: "PASSWORD", b: "View Result", err: "Not Found!" },
+        am: { t: "ዳሞት አጠቃላይ የሁለተኛ ደረጃ ትምህርት ቤት", s: "ከ9-12 ክፍል | የ2018 ውጤት መግቢያ", n: "ሙሉ ስም", i: "መለያ ቁጥር", p: "የይለፍ ቃል", b: "ውጤት አሳይ", err: "አልተገኘም!" },
+        or: { t: "MANA BARUMSA SAD. 2FFAA DAMOT", s: "KUTAA 9-12 | BU'AA BARNOOTA 2018", n: "MAQAA GUUTUU", i: "LAKKOOFSA GALMEE", p: "JECHA ICCHITII", b: "BU'AA ILAALU", err: "Hin argamne!" },
+        tg: { t: "ዳሞት ሓፈሻዊ ካልኣይ ብርኪ ቤት ትምህርቲ", s: "ክፍሊ 9-12 | ውጽኢት ትምህርቲ 2018", n: "ምሉእ ስም", i: "መፍለዪ ቁጽሪ", p: "መሕለፊ ቃል", b: "ውጽኢት ርአ", err: "ኣይተረኸበን!" },
+        so: { t: "DUGSIYA SARE EE DAMOT", s: "DARASADA 9-12 | NATIIJADA 2018", n: "MAGACA OO DHAYSTIRAN", i: "LAMBARKA", p: "LOOGANKA", b: "FIIRI NATIIJADA", err: "Lama helin!" }
+    };
+
+    function setLang(lang, event) {
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        document.getElementById('hTitle').innerText = translations[lang].t;
+        document.getElementById('hSub').innerText = translations[lang].s;
+        document.getElementById('lblN').innerText = translations[lang].n;
+        document.getElementById('lblI').innerText = translations[lang].i;
+        document.getElementById('lblP').innerText = translations[lang].p;
+        document.getElementById('searchBtn').innerText = translations[lang].b;
+    }
+
+    async function fetchResult() {
+        const name = document.getElementById('uName').value;
+        const id = document.getElementById('uId').value;
+        const pw = document.getElementById('uPw').value;
+        const btn = document.getElementById('searchBtn');
+
+        if(!name || !id || !pw) return alert("Please fill all fields!");
+        
+        btn.innerText = "Searching...";
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(`${scriptUrl}?name=${encodeURIComponent(name)}&adm=${encodeURIComponent(id)}&pwd=${encodeURIComponent(pw)}`);
+            const data = await response.json();
+
+            if(data.status === "success") {
+                document.getElementById('resPanel').style.display = "block";
+                document.getElementById('dispName').innerText = name;
+                document.getElementById('dispMeta').innerText = `Grade: ${data.grade} | Section: ${data.section}`;
+                
+                document.getElementById('scoreArea').innerHTML = `
+                    <div class="score-row"><span>Mathematics</span><b>${data.maths}</b></div>
+                    <div class="score-row"><span>Physics</span><b>${data.physics}</b></div>
+                    <div class="score-row"><span>Chemistry</span><b>${data.chemistry}</b></div>
+                    <div class="score-row"><span>Biology</span><b>${data.biology}</b></div>
+                    <div class="score-row"><span>English</span><b>${data.english}</b></div>
+                `;
+                
+                let avgValue = parseFloat(data.average);
+                document.getElementById('resAvg').innerText = (avgValue <= 1 ? (avgValue * 100).toFixed(1) : avgValue) + "%";
+                
+                const s = document.getElementById('resStat');
+                s.innerText = data.resultStatus;
+                s.className = data.resultStatus === "PASSED" ? "pass" : "fail";
+            } else {
+                alert("User not found! Check Name and ID.");
+            }
+        } catch (error) {
+            alert("Connection Error! Ensure Script is deployed as 'Anyone'.");
+        } finally {
+            btn.innerText = "View Result";
+            btn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
